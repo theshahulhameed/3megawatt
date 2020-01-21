@@ -9,7 +9,9 @@ Collects data from monitoring services and also generate suitable reports for vi
 
 2. Open your browser and visit `localhost:8000` or `127.0.0.1:8000` to access the API
 
+[API Documentation](docs/api.md)
+
 To run test cases:
 1. `docker-compose exec web python manage.py test`
 
-API Documentation Test[Link](docs/api.md)
+

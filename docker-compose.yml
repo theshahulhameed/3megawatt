@@ -10,6 +10,10 @@ services:
     web:
         build: .
         command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+        environment:
+            - ENVIRONMENT=production
+            - SECRET_KEY=43%0+@56zgw+-8s-xvm6#u0v)#@wlun5oir0h^)+tz_attmi!z
+            - DEBUG=0
         volumes:
             - .:/code
         ports:
@@ -20,6 +24,7 @@ services:
     celery:
         environment:
             - C_FORCE_ROOT=true
+            - SECRET_KEY=43%0+@56zgw+-8s-xvm6#u0v)#@wlun5oir0h^)+tz_attmi!z
         build: .    
         command: bash -c "python manage.py celery worker"
         volumes:
@@ -30,6 +35,8 @@ services:
     celery-beat:
         build: .
         command: bash -c "python manage.py celery beat"
+        environment:
+            - SECRET_KEY=43%0+@56zgw+-8s-xvm6#u0v)#@wlun5oir0h^)+tz_attmi!z
         volumes:
             - .:/code
         depends_on:

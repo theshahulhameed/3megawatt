@@ -1,6 +1,7 @@
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from plants.models import Plant
 from .serializers import PlantSerializer
@@ -28,7 +29,7 @@ class PlantsDetailsAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PlantSerializer
 
 
-class PlantUpdateDetails(APIView):
+class UpdatePlantDataPointsAPI(APIView):
     '''
     REST API which takes the 'uid' of the plant in URL, 
     date-range(from,to) in the POST request, 

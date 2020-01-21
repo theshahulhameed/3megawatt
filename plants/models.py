@@ -35,7 +35,7 @@ class Plant(models.Model):
         response = requests.get(query_string)
         plant_data = response.json()
         for data in plant_data:
-            plant_data_object = PlantData.objects.update_or_create(
+            plant_data_object = DataPoint.objects.update_or_create(
                 plant=self,
                 reading_time=data['datetime'],
                 defaults={

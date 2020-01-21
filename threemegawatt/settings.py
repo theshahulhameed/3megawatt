@@ -66,7 +66,7 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULE = {
     'update_latest_plant_data': {
         'task': 'plants.tasks.task_update_latest_plant_data',
-        'schedule': crontab(minute="*/1"),
+        'schedule': crontab(hour=23, minute=1),
     },
 }
 

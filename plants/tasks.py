@@ -18,7 +18,6 @@ def task_update_latest_plant_data():
     to fetch the latest data points from the monitoring service
     for each plant and update it. 
     """
-    monitoring_service_url = settings.MONITORING_SERVICE_URL
     from_date = timezone.now().date()
     to_date = (timezone.now() + timedelta(days=1)).date()
     plants = Plant.objects.all()

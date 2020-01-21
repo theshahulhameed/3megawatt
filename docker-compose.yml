@@ -1,19 +1,40 @@
 version: '3.7'
 
 services:
+    redis:
+        image: "redis:alpine"
+    monitoring:
+        image: "palacios3mw/monitor:latest"  
+        ports:
+            - "5000:5000"
     web:
         build: .
-        command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
+        command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
         volumes:
             - .:/code
         ports:
             - 8000:8000
         depends_on:
             - db
-    monitoring:
-        image: "palacios3mw/monitor:latest"  
-        ports:
-            - "5000:5000"
+            - monitoring
+    celery:
+        environment:
+            - C_FORCE_ROOT=true
+        build: .    
+        command: bash -c "python manage.py celery worker"
+        volumes:
+            - .:/code
+        depends_on:
+            - redis
+            - db
+    celery-beat:
+        build: .
+        command: bash -c "python manage.py celery beat"
+        volumes:
+            - .:/code
+        depends_on:
+            - redis
+            - db
     db:
         image: postgres:11
         volumes:

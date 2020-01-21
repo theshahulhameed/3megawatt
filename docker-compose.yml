@@ -3,13 +3,21 @@ version: '3.7'
 services:
     web:
         build: .
-        command: python /code/manage.py runserver 0.0.0.0:8000
+        command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
         volumes:
-        - .:/code
+            - .:/code
         ports:
-        - 8000:8000
+            - 8000:8000
+        depends_on:
+            - db
     monitoring:
         image: "palacios3mw/monitor:latest"  
         ports:
-        - "5000:5000"
+            - "5000:5000"
+    db:
+        image: postgres:11
+        volumes:
+          - postgres_data:/var/lib/postgresql/data/
+volumes:
+    postgres_data:
       

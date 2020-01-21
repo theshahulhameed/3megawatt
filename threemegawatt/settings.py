@@ -72,6 +72,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'threemegawatt.wsgi.application'
 
+# Monitoring Service
+MONITORING_SERVICE_URL = 'http://localhost:5000/'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

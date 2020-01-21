@@ -9,9 +9,12 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+from celery.schedules import crontab
 import os
 import djcelery
+
+djcelery.setup_loader()
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,6 +56,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CELERY_IMPORTS = (
+    'plants.tasks',
+)
+# Celery Beat Schedule
+# Chose the time as 11:01 PM so that it will maximum latest
+# data points to update for a particular day
+CELERYBEAT_SCHEDULE = {
+    'update_latest_plant_data': {
+        'task': 'plants.tasks.task_update_latest_plant_data',
+        'schedule': crontab(minute="*/1"),
+    },
+}
 
 ROOT_URLCONF = 'threemegawatt.urls'
 

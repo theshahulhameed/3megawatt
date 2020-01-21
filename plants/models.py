@@ -2,6 +2,7 @@ import uuid
 import logging
 import requests
 
+from django.utils.timezone import make_aware
 from django.db import models
 from django.db.models import Sum
 from django.conf import settings

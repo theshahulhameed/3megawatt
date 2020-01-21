@@ -3,6 +3,7 @@ import logging
 import requests
 
 from django.db import models
+from django.db.models import Sum
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -64,3 +65,42 @@ class DataPoint(models.Model):
 
     def __str__(self):
         return f"{self.plant.name}'s data on {self.reading_time}"
+
+
+def generate_plant_data_reports(month, year, plant_object, reading_type=None):
+    '''
+    Generates the monthly report of the power plants, 
+    with readings aggregated per day
+    '''
+    query = DataPoint.objects.filter(
+        plant=plant_object,
+        reading_time__year=2019,
+        reading_time__month=1)
+    if reading_type == 'energy':
+        plants_data = query.extra(
+            select={'day': 'date(reading_time)'}).values(
+                'day').annotate(
+            energy_expected=Sum(f'energy_expected'),
+            energy_observed=Sum(f'energy_observed'),
+        )
+    elif reading_type == 'irradiation':
+        plants_data = query.extra(
+            select={'day': 'date(reading_time)'}).values(
+                'day').annotate(
+            irradiation_expected=Sum(f'irradiation_expected'),
+            irradiation_observed=Sum(f'irradiation_observed'),
+        )
+    else:
+        plants_data = query.extra(
+            select={'day': 'date(reading_time)'}).values(
+                'day').annotate(
+            energy_expected=Sum(f'energy_expected'),
+            energy_observed=Sum(f'energy_observed'),
+            irradiation_expected=Sum(f'irradiation_expected'),
+            irradiation_observed=Sum(f'irradiation_observed'),
+        )
+    response = {"plant_name": plant_object.name}
+    response['readings'] = plants_data
+    logger.info(
+            "Generated reports for the Plant data points")
+    return response

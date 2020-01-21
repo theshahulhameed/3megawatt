@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from plants.models import Plant
+from plants.models import Plant, generate_plant_data_reports
 from .serializers import PlantSerializer
 
 
@@ -52,4 +52,32 @@ class UpdatePlantDataPointsAPI(APIView):
             data_has_error = "Invalid payload."
         except ConnectionError:
             data_has_error = "Error with the connection."
+            return Response(data_has_error, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PlantDataReportsAPI(APIView):
+    '''
+    This will be a GET based API, which will have the
+    plant uid as 'pk', 'month' and 'year' as URL parameters,
+    'type' as an optional parameter to filter the results to
+    the type of reading as either energy/irradiation or both.
+    API generates the monthly report with an aggregated value
+    of the data points per day. 
+    '''
+
+    def get(self, request, pk):
+        try:   
+            plant_id = pk
+            month = int(request.GET.get('month'))
+            year = int(request.GET.get('year'))
+            reading_type = request.GET.get('type')
+            plant_object = Plant.objects.get(uid=plant_id)
+            response = generate_plant_data_reports(
+                month=month,
+                year=year,
+                plant_object=plant_object,
+                reading_type=reading_type)
+            return Response(response, status=status.HTTP_200_OK)
+        except TypeError:
+            data_has_error = "Invalid query parameters."
             return Response(data_has_error, status=status.HTTP_400_BAD_REQUEST)

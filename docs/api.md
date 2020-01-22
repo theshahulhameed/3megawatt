@@ -2,7 +2,7 @@
 I. REST API to manage solar panel plants (CRUD operations)
 ---
 ### Usage
-End-point: ```http://localhost:8000/api/plants/```
+End-point: ```http://localhost:8000/api/v1/plants/```
 
 #### 1)To create a Solar Power Plant
 
@@ -40,7 +40,7 @@ Vary: Accept
 
 #### 2)To list of all available solar power plants. 
 
-End-point: ```http://localhost:8000/api/plants/```
+End-point: ```http://localhost:8000/api/v1/plants/```
 
 Type: **GET** Request
 
@@ -77,7 +77,7 @@ Vary: Accept
 #### 3)To retrieve a particular solar power plant
 
 Type: **GET** Request
-Endpoint: `http://localhost:8000/api/plants/<uid>/`
+Endpoint: `http://localhost:8000/api/v1/plants/<uid>/`
 Fields reference:
 
 |  Field       | Type           | Description   | Example       | Required |
@@ -108,7 +108,7 @@ Vary: Accept
 #### 3)To update a particular plant
 
 Type: **PUT** Request
-Endpoint: `http://localhost:8000/api/plants/<uid>/`
+Endpoint: `http://localhost:8000/api/v1/plants/<uid>/`
 URL should contain valid **UID.** 
 
 **Field reference**
@@ -144,7 +144,7 @@ Vary: Accept
 #### 4)To delete a particular plant
 
 Type: **DELETE** Request
-Endpoint: `http://localhost:8000/api/plants/<uid>/`
+Endpoint: `http://localhost:8000/api/v1/plants/<uid>/`
 URL should contain valid **UID.** 
 
 **Sample response:**
@@ -163,7 +163,7 @@ II. REST API to pull data from monitoring service programatically
 #### 1) To update the data for a particular solar panel plant from monitoring service for a specific time range. 
 
 Type: **POST** Request
-Endpoint: `http://localhost:8000/api/plants/<uid>/update/`
+Endpoint: `http://localhost:8000/api/v1/plants/<uid>/update/`
 URL should contain valid **UID.** 
 
 
@@ -207,7 +207,7 @@ III. REST API to pull generate monitoring data reports
 #### 1) To generate monitoring data reports for a particular solar panel plant during a time range. 
 
 Type: **GET** Request
-Endpoint: `http://localhost:8000/api/plants/<uid>/reports/`
+Endpoint: `http://localhost:8000/api/v1/plants/<uid>/reports/`
 URL should contain valid **UID.** 
 
 
@@ -223,7 +223,7 @@ URL should contain valid **UID.**
 **Sample request:**
 
 ```
-http://localhost:8000/api/plants/52b24270-5413-4a3b-84cd-862beee1bebf/reports/?month=1&?year=2019
+http://localhost:8000/api/v1/plants/52b24270-5413-4a3b-84cd-862beee1bebf/reports/?month=1&?year=2019
 ```
 
 **Sample response:**

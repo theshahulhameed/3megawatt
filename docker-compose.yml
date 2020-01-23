@@ -9,15 +9,15 @@ services:
             - "5000:5000"
     web:
         build: .
-        command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+        command: bash -c "python manage.py collectstatic --no-input --clear && python manage.py migrate --noinput && gunicorn threemegawatt.wsgi:application --bind 0.0.0.0:8000"
         environment:
             - ENVIRONMENT=production
             - SECRET_KEY=43%0+@56zgw+-8s-xvm6#u0v)#@wlun5oir0h^)+tz_attmi!z
             - DEBUG=0
         volumes:
-            - .:/code
-        ports:
-            - 8000:8000
+            - static_volume:/code/staticfiles/
+        expose:
+            - 8000
         depends_on:
             - db
             - monitoring
@@ -46,6 +46,14 @@ services:
         image: postgres:11
         volumes:
           - postgres_data:/var/lib/postgresql/data/
+    nginx:
+        build: ./nginx
+        ports:
+        - 1337:80
+        depends_on:
+        - web
+        volumes:
+        - static_volume:/code/staticfiles/
 volumes:
     postgres_data:
-      
+    static_volume:

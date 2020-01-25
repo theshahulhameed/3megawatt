@@ -1,6 +1,12 @@
 # 3megawatt Solar Power Plant - Back-end 
+Manages the back-end infrastructure of a solar power plant service. 
 
-Collects data from monitoring services and also generate suitable reports for visualization of the data of various solar power plants.
+**Functionalities**
+- Collects data from monitoring service and updates the data points periodically as well as programatically on custom request. 
+- Generate suitable reports for visualization of the data of various solar power plants.
+
+**Technologies used**
+`` Python, Django, PostgreSQL, Redis, Celery, Docker ``
 
 ## Usage Instructions
 

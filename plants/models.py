@@ -75,8 +75,8 @@ def generate_plant_data_reports(month, year, plant_object, reading_type=None):
     '''
     query = DataPoint.objects.filter(
         plant=plant_object,
-        reading_time__year=2019,
-        reading_time__month=1)
+        reading_time__year=year,
+        reading_time__month=month)
     if reading_type == 'energy':
         plants_data = query.extra(
             select={'day': 'date(reading_time)'}).values(
